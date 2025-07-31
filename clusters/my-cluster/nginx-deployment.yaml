@@ -1,34 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
-  namespace: default # <-- 新增這一行 Add this line
+  name: apache-deployment # 建議更改名稱以反映新服務 Suggest changing name to reflect new service
+  namespace: default
   labels:
-    app: nginx
+    app: apache # 建議更改 Label Suggest changing label
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: apache # 建議更改 Label Suggest changing label
   template:
     metadata:
       labels:
-        app: nginx
+        app: apache # 建議更改 Label Suggest changing label
     spec:
       containers:
-      - name: nginx
-        image: nginx:latest
+      - name: apache # 建議更改名稱以反映新服務 Suggest changing name to reflect new service
+        image: httpd:latest # <-- 將這裡從 nginx:latest 改為 httpd:latest Change this from nginx:latest to httpd:latest
         ports:
-        - containerPort: 80
+        - containerPort: 80 # Nginx 和 Apache 都預設使用 80 埠 Both Nginx and Apache default to port 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
-  namespace: default # <-- 新增這一行 Add this line
+  name: apache-service # 建議更改名稱以反映新服務 Suggest changing name to reflect new service
+  namespace: default
 spec:
   selector:
-    app: nginx
+    app: apache # 更改為與 Deployment 的 Label 相符 Change to match the Deployment's label
   ports:
     - protocol: TCP
       port: 80
